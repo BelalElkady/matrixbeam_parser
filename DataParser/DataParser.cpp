@@ -6,6 +6,7 @@
 #include "include/rapidjson/document.h"
 #include "include/rapidjson/stringbuffer.h"
 #include "include/rapidjson/writer.h"
+#include "TimestampCapture.h"
 #include <cstdio>
 
 int main()
@@ -13,6 +14,7 @@ int main()
     using namespace rapidjson;
 
     FILE* fp = fopen("generated.json", "rb"); // non-Windows use "r"
+    vector<ObjectCapture> ObjCaptureVector;
 
     char readBuffer[16384];
     FileReadStream is(fp, readBuffer, sizeof(readBuffer));
@@ -23,39 +25,90 @@ int main()
 
     assert(doc.IsArray());
 
-    assert(doc[0].IsObject());
+    //assert(doc[0].IsObject());
     
-    
-
-
+    /*loop over the whole JSON array*/
     for (Value::ConstValueIterator itr = doc.Begin(); itr != doc.End(); ++itr) {
 
         const Value& obj = *itr;
+        /*loop over each and every object which has time and array of object */
         for (Value::ConstMemberIterator it = obj.MemberBegin(); it != obj.MemberEnd(); ++it) {
-            if (it->value.IsInt()) {
-                std::cout << "cdscc" << std::endl;
-                std::cout << it->name.GetString() << ": " << it->value.GetInt() << std::endl;
+       
+           if (it->value.IsArray()&&!it->value.Empty()) {
+               const Value& obj1 = it->value;
+               int NoOfObjects = 0;
+               /*loop over "Objects" array */
+               for (Value::ConstValueIterator itre = obj1.Begin(); itre != obj1.End(); ++itre) {
+                   NoOfObjects = obj1.Size();
+                   
+                   std::cout << "NoOfObjects: " << NoOfObjects << std::endl;
+
+                   const Value& obj2 = *itre;
+                   /*loop over each object elements */
+                   for (Value::ConstMemberIterator it = obj2.MemberBegin(); it != obj2.MemberEnd(); ++it) {
+                       ObjectCapture ObjCapture;
+                       string name = it->name.GetString();
+                       if (name.compare("id") == 0) {
+
+                           ObjCapture.setId(it->value.GetInt());
+                           
+                       }else if (name.compare("set") == 0) {
+
+                           ObjCapture.setSet(it->value.GetInt());
+
+                       }
+                       else if (name.compare("position") == 0) {
+                           int pos[3];
+                           for (int i = 0; i < 3; i++) {
+                               pos[i] = it->value[i].GetInt();
+                          }
+
+                       
+                           ObjCapture.updatePosition(pos);
+                                
+
+                       }
+                       else if (name.compare("category") == 0) {
+
+                           ObjCapture.setCategory(it->value.GetString());
+                       
+                       }
+                       else if (name.compare("subcategory") == 0) {
+
+                           ObjCapture.setSubcategory(it->value.GetString());
+
+                       }
+                       else if (name.compare("name") == 0) {
+
+                           ObjCapture.setName(it->value.GetString());
+
+                       }
+                       else if (name.compare("place") == 0) {
+
+                           ObjCapture.setPlace(it->value.GetString());
+
+                       }
+                       else if (name.compare("motion") == 0) {
+
+                           ObjCapture.setMotion(it->value.GetFloat());
+
+                       }
+                       else {
+
+                       }
+                       ObjCaptureVector.push_back(ObjCapture);
+                     
+                   }
+
+                   /* Here pass the vector and check the data */
+              
+               }
+
             }
 
         }
     }
-    //std::cout << doc["time"].GetString();
-
-   /* StringBuffer buffer{};
-    Writer<StringBuffer> writer{ buffer };
-    doc.Accept(writer);
-
-    if (doc.HasParseError())
-    {
-        std::cout << "Error  : " << doc.GetParseError() << '\n'
-            << "Offset : " << doc.GetErrorOffset() << '\n';
-        return EXIT_FAILURE;
-    }
-
-    const std::string jsonStr{ buffer.GetString() };
-
-    std::cout << doc.GetArray().Begin()[0] << '\n';
-    */
+  
     fclose(fp);
 }
 

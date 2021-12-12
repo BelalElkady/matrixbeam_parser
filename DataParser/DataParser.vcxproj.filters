@@ -18,8 +18,16 @@
     <ClCompile Include="DataParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TimestampCapture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="generated.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TimestampCapture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -140,9 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DataParser.cpp" />
+    <ClCompile Include="TimestampCapture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="generated.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TimestampCapture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
