@@ -1,4 +1,4 @@
-// DataParser.cpp : This file contains the 'main' function. Program execution begins and ends there.
+ // DataParser.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 #define _CRT_SECURE_NO_DEPRECATE
 #include <iostream>
@@ -6,9 +6,9 @@
 #include "include/rapidjson/document.h"
 #include "include/rapidjson/stringbuffer.h"
 #include "include/rapidjson/writer.h"
-#include "TimestampCapture.h"
+#include "ObjectCapture.h"
 #include <cstdio>
-
+static int NoOfTimestamps = 0; 
 int main()
 {
     using namespace rapidjson;
@@ -20,33 +20,51 @@ int main()
     FileReadStream is(fp, readBuffer, sizeof(readBuffer));
 
     Document doc;
+  
     doc.ParseStream(is);
+
+    Value::ConstValueIterator itr = doc.Begin();//whole doc iterator initialization 
 
 
     assert(doc.IsArray());
+  
+    /*for every file read number of Object should be counted , so when the file is appended with new value the iterator
+    starts from the first NEW object */
 
+    if (doc.Size() > NoOfTimestamps) {
+
+        NoOfTimestamps=doc.Size();
+        
+    }
+    else {
+        itr += doc.Size();
+    }
     //assert(doc[0].IsObject());
     
     /*loop over the whole JSON array*/
-    for (Value::ConstValueIterator itr = doc.Begin(); itr != doc.End(); ++itr) {
+    for (; itr != doc.End(); ++itr) {
+       
 
         const Value& obj = *itr;
         /*loop over each and every object which has time and array of object */
         for (Value::ConstMemberIterator it = obj.MemberBegin(); it != obj.MemberEnd(); ++it) {
+
+         
        
            if (it->value.IsArray()&&!it->value.Empty()) {
                const Value& obj1 = it->value;
                int NoOfObjects = 0;
-               /*loop over "Objects" array */
+               /*at every timestamp loop over "Objects" array */
                for (Value::ConstValueIterator itre = obj1.Begin(); itre != obj1.End(); ++itre) {
                    NoOfObjects = obj1.Size();
+                   ObjectCapture ObjCapture;
                    
-                   std::cout << "NoOfObjects: " << NoOfObjects << std::endl;
+                   
 
                    const Value& obj2 = *itre;
                    /*loop over each object elements */
                    for (Value::ConstMemberIterator it = obj2.MemberBegin(); it != obj2.MemberEnd(); ++it) {
-                       ObjectCapture ObjCapture;
+                      
                        string name = it->name.GetString();
                        if (name.compare("id") == 0) {
 
@@ -96,11 +114,13 @@ int main()
                        else {
 
                        }
-                       ObjCaptureVector.push_back(ObjCapture);
+                       
                      
                    }
-
+                   ObjCaptureVector.push_back(ObjCapture);
                    /* Here pass the vector and check the data */
+
+                  
               
                }
 
