@@ -18,7 +18,10 @@
     <ClCompile Include="DataParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TimestampCapture.cpp">
+    <ClCompile Include="ObjectCapture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeStampCapture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,7 +29,10 @@
     <None Include="generated.json" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TimestampCapture.h">
+    <ClInclude Include="ObjectCapture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeStampCapture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
