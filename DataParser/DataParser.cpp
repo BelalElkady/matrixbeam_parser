@@ -7,6 +7,7 @@
 #include "include/rapidjson/stringbuffer.h"
 #include "include/rapidjson/writer.h"
 #include "ObjectCapture.h"
+#include "TimeStampCapture.h"
 #include <cstdio>
 static int NoOfTimestamps = 0; 
 int main()
@@ -14,7 +15,7 @@ int main()
     using namespace rapidjson;
 
     FILE* fp = fopen("generated.json", "rb"); // non-Windows use "r"
-    vector<ObjectCapture> ObjCaptureVector;
+    TimeStampCapture TSCapture;
 
     char readBuffer[16384];
     FileReadStream is(fp, readBuffer, sizeof(readBuffer));
@@ -53,14 +54,11 @@ int main()
        
            if (it->value.IsArray()&&!it->value.Empty()) {
                const Value& obj1 = it->value;
-               int NoOfObjects = 0;
+              
                /*at every timestamp loop over "Objects" array */
                for (Value::ConstValueIterator itre = obj1.Begin(); itre != obj1.End(); ++itre) {
-                   NoOfObjects = obj1.Size();
+                   TSCapture.setNoOfObj(obj1.Size());
                    ObjectCapture ObjCapture;
-                   
-                   
-
                    const Value& obj2 = *itre;
                    /*loop over each object elements */
                    for (Value::ConstMemberIterator it = obj2.MemberBegin(); it != obj2.MemberEnd(); ++it) {
@@ -117,12 +115,13 @@ int main()
                        
                      
                    }
-                   ObjCaptureVector.push_back(ObjCapture);
+                   TSCapture.addObjects(ObjCapture);
                    /* Here pass the vector and check the data */
 
                   
               
                }
+               std::cout << TSCapture.hasSameSet() << std::endl;
 
             }
 

@@ -11,10 +11,12 @@ private:
 	float Time;
 	int NoOfObj;
 	vector<ObjectCapture> ObjCaptureVector;
-	bool HasSameSet(void);
+	
 public:
-	void setTime(float);
-	void setObjectsVector(vector<ObjectCapture>);
+	void setNoOfObj(int);
+	int  getNoOfObj(void);
+	bool hasSameSet(void);
+	void addObjects(ObjectCapture);
 	void updateObject(int id);
 	void sendCommand(int command);
 
