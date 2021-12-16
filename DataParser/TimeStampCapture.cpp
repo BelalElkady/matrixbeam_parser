@@ -4,6 +4,7 @@
 bool TimeStampCapture::hasSameSet(void) {
     if (this->getNoOfObj() > 1) {
 
+
         if (ObjCaptureVector[0].getSet() == ObjCaptureVector[1].getSet()) return true;
 
         else return false;
@@ -45,4 +46,8 @@ void TimeStampCapture::sendCommand(int command) {
     else {
 
     }
+}
+
+void TimeStampCapture::clearTimeStamp(void) {
+    this->ObjCaptureVector.clear();
 }

@@ -19,6 +19,7 @@ public:
 	void addObjects(ObjectCapture);
 	void updateObject(int id);
 	void sendCommand(int command);
+	void clearTimeStamp(void);
 
 
 
