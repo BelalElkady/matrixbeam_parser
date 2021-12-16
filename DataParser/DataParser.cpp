@@ -122,6 +122,7 @@ int main()
               
                }
                std::cout << TSCapture.hasSameSet() << std::endl;
+			    TSCapture.clearTimeStamp();
 
             }
 
