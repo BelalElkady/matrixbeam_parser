@@ -1,0 +1,5 @@
+﻿  main.cpp
+main.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+  BabyLinDllExample.vcxproj -> C:\Users\AWDSHOI\Desktop\Marc\LinWorks-PCSoftware-2.X-CD\Development\C and C++Examples\BabyLinDllExample\Debug\BabyLinDllExample.exe
+          1 file(s) copied.
+          1 file(s) copied.

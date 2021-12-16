@@ -1,0 +1,367 @@
+------------------------------------------------------------------------
+BabLIN 10.1.5 (build 31713, 20.01.2017)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed high cpu usage bug introduced in 10.1.4
+        improved performance of BL(C)_sendCommand and callback-function handling
+
+------------------------------------------------------------------------
+BabLIN 10.1.4 (build 31199, 11.01.2017)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed problems with BL(C)_close(All) functions (stuck function call)
+        fixed very rare issue with virtual signal callback processing (delayed delivers)
+        fixed bug in sdfv2 parser for macro commands "set schedule" and "start"
+
+------------------------------------------------------------------------
+BabyLIN 10.1.3 (build 31295, 23.12.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed sdfv2 schedule macro command handling
+
+------------------------------------------------------------------------
+BabyLIN 10.1.2 (build 31078, 09.12.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed sporadic sdf download error in schedule downloading
+        added error code for "download in progress" to BLC_sendCommand
+
+------------------------------------------------------------------------
+BabyLIN 10.1.1 (build 30823, 30.11.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed sporadic download issues introduced in 10.1.0
+
+------------------------------------------------------------------------
+BabyLIN 10.1.0 (build 30743, 28.11.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        added sdf protocol support
+        added sdf local macro variable support
+        added event report support
+        added thread safety to sdf downloads
+        added support for macro_result command
+        performance improvements in frame and signal handling
+
+------------------------------------------------------------------------
+BabyLIN 10.0.15 (build 28927, 05.09.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        introduced thread-safe communication
+        added backwards compatible function BL_updRawSlaveResponse
+        fixed ldf to sdf lin frame version calculation
+        fixed error in macro command start schedule handling
+        fixed rare issue in large signal mappings in frames
+
+------------------------------------------------------------------------
+BabyLIN 10.0.14 (build 27809, 29.06.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        added _BLC_FRAME as struct name for BLC_FRAME
+        return BL_NO_DATA when no dtl frames are available in BLC_getnextDtl* functions
+        fixed BLC_MACROSTATE channelid value
+        added new functions to receive signals from queue for a specific signal number
+        internal improvements in master request handling
+        fixed CAN 29bit frame event handling
+
+------------------------------------------------------------------------
+BabyLIN 10.0.13 (build 25969, 14.04.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        embedded bugfixes
+
+------------------------------------------------------------------------
+BabyLIN 10.0.12 (build 25656, 24.03.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        added further Autosar CRC functions
+        added support for Autosar CRC crc position
+
+------------------------------------------------------------------------
+BabyLIN 10.0.11 (build 24799, 03.02.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed HeapFree issue in 64bit version
+
+------------------------------------------------------------------------
+BabyLIN 10.0.10 (build 24737, 29.01.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed ldf parser issues
+        fixed LIN array signal issues
+
+------------------------------------------------------------------------
+BabyLIN 10.0.9 (build 24425, 04.01.2016)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed embedded linux isses with atmel serial port drivers
+        modified frame handling to handle 29bit frame ids
+        added initial API for pure SDF handling (without BabyLIN connection)
+        fixed CAN motorola format support
+        fixed CAN signed signal handling
+        improved ldf parser to allow some keywords in contexts not using the keywords
+
+------------------------------------------------------------------------
+BabyLIN 10.0.8 (build 24094, 18.11.2015)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        added "pullup auto" command
+        added "factoryreset" command
+        added support or sdfs with "set signal math" command
+        fixed CAN handling of 29bit frameid
+        fixed handling of CAN signal encodings
+
+------------------------------------------------------------------------
+BabyLIN 10.0.7 (build 23785, 23.10.2015)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed issues with SDF signal values in SDFV2
+        fixed BLC_SIGNAL generation to set arrayLength to 0 for scalar signals
+        fixed issue in SDFV3 schedule event frame
+        added mrep timestamp support
+
+------------------------------------------------------------------------
+BabyLIN 10.0.6 (build 22834, 17.08.2015)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        added sdf element comment support
+        added persistent_rd and persistent_wr send command support
+        fixed signal extraction in event triggered frames (LIN)
+
+------------------------------------------------------------------------
+BabyLIN 10.0.5 (build 22354, 06.07.2015)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        (temporarily) removed the new WinUSB functionality
+
+------------------------------------------------------------------------
+BabyLIN 10.0.3 (build 21949, 27.05.2015)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+                fixed sdf parsing issues in SDFV2
+
+------------------------------------------------------------------------
+BabyLIN 10.0.2 (build 21762, 19.05.2015)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+                fixed sdf parsing issues in SDFV2
+
+------------------------------------------------------------------------
+BabyLIN 10.0.1 (build 21338, 22.04.2015)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+                fixed problems with lsporadic and levent schedules
+                fixed problems with long encodings in bus description
+                added editing support for Autosar Profile1 and Profile2 CRC signal functions
+                fixed BL_getNextSignal command
+
+------------------------------------------------------------------------
+BabyLIN 10.0.0 (build 21097, 31.03.2015)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        INCOMPATIBLE CHANGE: BLC_SIGNAL structure uses integer as signal index
+        moved returncodes to extra header file
+        fixed CAN multiplexed signal handling
+        fixed glitch in array signal extraction
+        fixed macroselection event handling in SDFv2 to SDFv3 conversion and vice versa
+
+------------------------------------------------------------------------
+BabyLIN 9.1.2 (build 20980, 26.03.2015)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        added last signal value timstamp support
+
+------------------------------------------------------------------------
+BabyLIN 9.1.1 (build 20821, 17.03.2015)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed data loss issue in serial communication
+
+------------------------------------------------------------------------
+BabyLIN 9.0.1 (build 20054, 17.12.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed hwstate command
+
+------------------------------------------------------------------------
+BabyLIN 9.0.0 (build 19782, 01.12.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        changed signal value retrieveal functions to support 64bit signal values (BLC_-API)
+        fixed sendCommandF and sendCommandFs functions
+        fixed sdf macro selection in event action issues
+
+------------------------------------------------------------------------
+BabyLIN 8.9.1 (build 19452, 20.10.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        critical fix in SDF handling (schedules)
+
+------------------------------------------------------------------------
+BabyLIN 8.9.0 (build 19335, 17.10.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        new API function BLC_mon_set
+        new API function BLC_mon_xmit
+        new API function BLC_mon_set_xmit
+        new API function BLC_getNextFrameTimeout
+        new API function BLC_getNextFrameTimeout
+        new API function BLC_getBabyLinPortsTimout
+        new API function BLC_openNet
+        new API function BLC_openPort
+        added support for BabyLIN network devices
+        significant performance improvement (important for monitor API usage)
+        bugfix SDF event handling
+        bugfix SDFv2.X loading if X<=7
+
+------------------------------------------------------------------------
+BabyLIN 8.8.2 (build 18881, 29.08.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed loading of SDF-V2 with delay macro to SDF-V3 devices
+        fixed problems with device communication after unsuccessfull SDF download
+        fixed SDFV3 macro command issues with 64bit values
+
+------------------------------------------------------------------------
+BabyLIN 8.8.1 (build 18650, 07.08.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed CAN signal encoding
+        fixed floating point precision on signal encoding
+        fixed macro command set signal with 64bit value
+
+------------------------------------------------------------------------
+BabyLIN 8.8.0 (build 18439, 25.07.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed disframe and dissignal mode handling
+        added reconnect support ( download = 2 ) when downloading to new devices
+        fixed physical encoding for CAN channels
+
+
+------------------------------------------------------------------------
+BabyLIN 8.7.7 (build 18145, 18.06.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed wrong channelid in virtual signal reports
+        fixed support for negative signal values
+        added architecture to version string
+
+------------------------------------------------------------------------
+BabyLIN 8.7.6 (build 18103, 13.06.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed lin schedule SDF entry issues (conditional frames)
+        added BL_getFrameDetails and BLC_getFrameDetails functions
+        fixed memory leaks
+        added BLC_setsig function as a shortcut for BLC_sendCommand-setsig
+
+------------------------------------------------------------------------
+BabyLIN 8.7.5 (build 17977, 02.06.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed freeformat SDF issue
+
+------------------------------------------------------------------------
+BabyLIN 8.7.4 (build 17948, 27.05.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed BabyLIN commands
+        fixed several SDFile handling issues (event triggered frames, sporadic frames, macro commands)
+
+------------------------------------------------------------------------
+BabyLIN 8.7.3 (build 17665, 14.05.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed amximum queue size
+
+------------------------------------------------------------------------
+BabyLIN 8.7.2 (build 17412, 11.04.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed problem with long dbc encodings
+
+------------------------------------------------------------------------
+BabyLIN 8.7.1 (build 17406, 11.04.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed problem with downloading dframes
+
+------------------------------------------------------------------------
+BabyLIN 8.7.0 (build 17380, 09.04.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        added first BTBasic interface (for use in Agilent Products)
+        fixed SDF handling for HARP logging entries in SDF V3
+
+------------------------------------------------------------------------
+BabyLIN 8.6.1 (build 17252, 02.04.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed SDF handling with HARP specific entries on non-HARP devices
+
+------------------------------------------------------------------------
+BabyLIN 8.6.0 (build 17231, 01.04.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed getnodesimu and setnodesimu commands
+        added addition signal information API functions for signal size and signal emulation status
+        fixed macros on SDF V2 devices
+
+------------------------------------------------------------------------
+BabyLIN 8.5.0 (build 17141, 26.03.2014)
+------------------------------------------------------------------------
+    Changes/Bugfixes:
+        fixed SDF V2 handling of array signal initial values
+        fixed possible crash when working with multiple devices
+        added support for loading ldf files to BabyLIN device
+        do not extract signals from no-response-frames
+        fixed physical encoding
+
+------------------------------------------------------------------------
+BabyLIN 8.4.0 (build 16973, 25.03.2014)
+------------------------------------------------------------------------
+        Changes/Bugfixes:
+                fixed SDF V2 and V3 issues
+
+------------------------------------------------------------------------
+BabyLIN 8.3.0 (build 16973, 18.03.2014)
+------------------------------------------------------------------------
+        Changes/Bugfixes:
+                added legacy BabyLINSDF.h API
+                fixed flashstore on legacy devices
+
+------------------------------------------------------------------------
+BabyLIN 8.2.0 (build 16930, 14.03.2014)
+------------------------------------------------------------------------
+        Changes/Bugfixes:
+                Fixed several parsing issue SDFiles V2
+                Fixed download of SDFiles V2
+                added liconoff command
+
+------------------------------------------------------------------------
+BabyLIN 8.1.3 (build 16805, 07.03.2014)
+------------------------------------------------------------------------
+        Changes/Bugfixes
+                Fixed issues with SDF related BLC_ commands on DEVICE channels
+                Removed error outputs to stderr
+
+------------------------------------------------------------------------
+BabyLIN 8.1.1 (build 16745, 05.03.2014)
+------------------------------------------------------------------------
+        Changes/Bugfixes
+                Fixed wrong handling of mon_on commands for defined and undefined frames on CAN channels
+
+------------------------------------------------------------------------
+BabyLIN 8.1.0 (build 16697, 04.03.2014)
+------------------------------------------------------------------------
+        Changes/Bugfixes
+                Fixed error returncode BL_INVALID_HANDLE of BLC_reset and BLC_flush
+                Fixed glitch leading to invalid frame data in frame and signal reporting ( callback handling )
+                Reduced processor usage
+                Changed API strucutures to consistend naming convention
+
+------------------------------------------------------------------------
+BabyLIN 8.0.0 (build 16592, 21.02.2014)
+------------------------------------------------------------------------
+        New version handling multichannel BabyLIN-devices and multisection SDFiles
