@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CarSeats.cpp" />
     <ClCompile Include="DataParser.cpp" />
     <ClCompile Include="ObjectCapture.cpp" />
     <ClCompile Include="TimeStampCapture.cpp" />
@@ -147,6 +148,7 @@
     <None Include="generated.json" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CarSeats.h" />
     <ClInclude Include="ObjectCapture.h" />
     <ClInclude Include="TimeStampCapture.h" />
   </ItemGroup>

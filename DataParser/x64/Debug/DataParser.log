@@ -1,5 +1,3 @@
 ﻿  DataParser.cpp
-C:\Users\belal\OneDrive\Documents\GitHub\matrixbeam_parser\DataParser\DataParser.cpp(35,20): warning C4018: '>': signed/unsigned mismatch
-  TimeStampCapture.cpp
-  Generating Code...
+C:\Users\belal\OneDrive\Documents\GitHub\matrixbeam_parser\DataParser\DataParser.cpp(36,20): warning C4018: '>': signed/unsigned mismatch
   DataParser.vcxproj -> C:\Users\belal\OneDrive\Documents\GitHub\matrixbeam_parser\x64\Debug\DataParser.exe

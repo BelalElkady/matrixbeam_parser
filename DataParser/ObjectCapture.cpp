@@ -1,6 +1,6 @@
 #include "ObjectCapture.h"
 
-
+#include <iostream>
 
 
 	/*setters*/
@@ -14,7 +14,7 @@
 	void ObjectCapture::setMotion(float motion){
 		this->motion = motion; 
 	}
-	void ObjectCapture::setCategory(string categroy) {
+	void ObjectCapture::setCategory(string category) {
 		this->category = category;
 
 	}
@@ -27,7 +27,7 @@
 	void ObjectCapture::setPlace(string place) {
 		this->place = place; 
 	}
-	void ObjectCapture::updatePosition(int* position) {
+	void ObjectCapture::updatePosition(signed int* position) {
 		for (int i = 0; i < 3; i++) this->position[i] = position[i];
 	}
 
@@ -46,14 +46,14 @@
 		return this->motion; 
 	}
 	string ObjectCapture::getCategory(void) {
-
+		
 		return this->category;
 	}
 	string ObjectCapture::getPlace(void) {
 
 		return this->place;
 	}
-	int* ObjectCapture::getPosition(void) {
+	signed int* ObjectCapture::getPosition(void) {
 
 		return this->position;
 	}

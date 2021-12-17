@@ -25,11 +25,11 @@ public:
 	void setId(int id );
 	void setSet(int set);
 	void setMotion(float motion);
-	void setCategory(string categroy);
+	void setCategory(string category);
 	void setSubcategory(string subcategroy);
 	void setName(string name);
 	void setPlace(string place);
-	void updatePosition(int* position);
+	void updatePosition(signed int* position);
 
 
 	/*getters*/
@@ -39,7 +39,7 @@ public:
 	float getMotion(void);
 	string getCategory(void);
 	string getPlace(void);
-	int* getPosition(void);
+	signed int* getPosition(void);
 	
 
 

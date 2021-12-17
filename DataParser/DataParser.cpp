@@ -10,6 +10,7 @@
 #include "TimeStampCapture.h"
 #include <cstdio>
 static int NoOfTimestamps = 0; 
+static CarSeats carSeat;
 int main()
 {
     using namespace rapidjson;
@@ -87,6 +88,7 @@ int main()
                        else if (name.compare("category") == 0) {
 
                            ObjCapture.setCategory(it->value.GetString());
+                          
                        
                        }
                        else if (name.compare("subcategory") == 0) {
@@ -117,12 +119,14 @@ int main()
                    }
                    TSCapture.addObjects(ObjCapture);
                    /* Here pass the vector and check the data */
+                   
 
                   
               
                }
-               std::cout << TSCapture.hasSameSet() << std::endl;
-			    TSCapture.clearTimeStamp();
+              
+               TSCapture.objectTracking(&carSeat);
+			   TSCapture.clearTimeStamp();
 
             }
 
