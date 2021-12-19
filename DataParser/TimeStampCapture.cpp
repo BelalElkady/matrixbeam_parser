@@ -6,11 +6,11 @@ bool TimeStampCapture::hasSameSet(void) {
     if (this->getNoOfObj() > 1) {
 
 
-        if (ObjCaptureVector[0].getSet() == ObjCaptureVector[1].getSet()) return true;
+      //  if (ObjCaptureVector[0].getSet() == ObjCaptureVector[1].getSet()) return true;
 
-        else return false;
+    //    else return false;
 
-
+        return true;
     }
     else return false;
 
@@ -31,17 +31,38 @@ int TimeStampCapture::getNoOfObj(void) {
 }
 
 
-void TimeStampCapture::addObjects(ObjectCapture oc ) {
+void TimeStampCapture::addObjects(ObjectCapture oc , vector<ObjectsData>* allObjDB) {
+    bool firstTimeFlag = true;
+       ObjectsData db;
 
-	this->ObjCaptureVector.push_back(oc);
- 
+      
+	
+    for (auto it = allObjDB->begin(); it !=allObjDB->end() ; ++it) {
+        if (it->id == oc.getId()) {
+           it->ObjCapture_ID =oc;
+           it->ObjCapture_ID_Pos.push_back(oc.getPosition());
+            firstTimeFlag = false; 
+        }
+    }
+    if (firstTimeFlag) {
+       db.id = oc.getId();
+       db.hasSeat = false;
+       db.ObjCapture_ID=oc;
+       db.x=-116;
+   
+       db.ObjCapture_ID_Pos.push_back(oc.getPosition());
+       allObjDB->push_back(db);
 
+    }
+    
+   
 }
 
 
-Position TimeStampCapture::positionMapping(ObjectCapture ObCapture) {
+Position TimeStampCapture::positionMapping(ObjectCapture* ObCapture) {
 
-    signed int* pos = ObCapture.getPosition();
+    Pos_class  posArr = ObCapture->getPosition();
+    signed int* pos = posArr.pos;
 
     if (pos[0] < -85 && pos[0] >= -115) {
         return ENTRANCE;
@@ -66,80 +87,144 @@ Position TimeStampCapture::positionMapping(ObjectCapture ObCapture) {
     }
 
 }
-void TimeStampCapture::objectTracking(CarSeats* carSeat) {
 
-    
-    
-    switch (this->getNoOfObj()) {
-    case 1 : 
-    {
+void TimeStampCapture::objectTracking(CarSeats* carSeat , vector<ObjectsData>* allObjDB) {
+
+    if (!carSeat->isCarFull()) {
         
-        ObjectCapture object = this->ObjCaptureVector[0];
-        if (object.getCategory().compare("Human") == 0) {
+        for (auto elem = allObjDB->begin(); elem != allObjDB->end(); ++elem) {
            
-            humanPlaceSpot(object , carSeat);
-        }
-        else { //thing
+           
+            for (auto& obj : elem->ObjCapture_ID_Pos) {
+                
+                if (obj.pos[0] > elem->x) {
+                   
+                    elem->x = obj.pos[0];
+                    elem->ObjCapture_ID.setDirection(GET_IN);
+                 
+                    if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
+
+                 
+
+                        humanPlaceSpot(&elem->ObjCapture_ID,&(*elem), carSeat);
+
+                       
+                    }
+                    else { //thing
+
+                    }
+                }
+                else if (obj.pos[0] < elem->x) {
+                    
+                    elem->x = obj.pos[0];
+                    elem->ObjCapture_ID.setDirection(GET_OUT);
+
+                    if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
+                      
+                        humanPlaceSpot(&elem->ObjCapture_ID, &(*elem), carSeat);
+                    }
+                    else { //thing
+
+                    }
+                }
+                else {
+                    
+                        elem->x = obj.pos[0];
+                        elem->ObjCapture_ID.setDirection(SEATED);
+
+                        if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
+
+                            humanPlaceSpot(&elem->ObjCapture_ID, &(*elem), carSeat);
+                        }
+                        else { //thing
+
+                        }
+                    }
+              
+               
+                
+            }
 
         }
-        break;
-    }
-    case 2 : 
-    {
-        ObjectCapture object1 = this->ObjCaptureVector[0];
-        ObjectCapture object2 = this->ObjCaptureVector[1];
-        if (object1.getCategory().compare("Human") == 0 && object2.getCategory().compare("Thing") == 0) {
-            if (hasSameSet()) {
-                humanPlaceSpot(object1,carSeat);
-                thingPlaceSpot(object2, carSeat);
+        std::cout << "loop ended" << std::endl;
+           /* switch (this->getNoOfObj()) {
+            case 1 : 
+            {
+        
+                ObjectCapture object = this->ObjCaptureVector[0];
+                if (object.getCategory().compare("Human") == 0) {
+           
+                    humanPlaceSpot(object , carSeat);
+                }
+                else { //thing
 
+                }
+                break;
             }
-            else {
-                //logically thing will not ride on its own 
-            }
+            case 2 : 
+            {
+                ObjectCapture object1 = this->ObjCaptureVector[0];
+                ObjectCapture object2 = this->ObjCaptureVector[1];
+      
+                    if (object1.getCategory().compare("Human") == 0 && object2.getCategory().compare("Thing") == 0) {
+                        if (hasSameSet()) {
+               
+                                humanPlaceSpot(object1, carSeat);
+                                thingPlaceSpot(object2, carSeat);
+               
+
+                        }
+                        else {
+                            //logically thing will not ride on its own 
+                        }
 
                 
         
-        }
-        else if (object1.getCategory().compare("Thing") == 0 && object2.getCategory().compare("Human") == 0) {
-            if (hasSameSet()) {
-                humanPlaceSpot(object2, carSeat);
-                thingPlaceSpot(object1, carSeat);
+                    }
+                    else if (object1.getCategory().compare("Thing") == 0 && object2.getCategory().compare("Human") == 0) {
+                        if (hasSameSet()) {
+                            humanPlaceSpot(object2, carSeat);
+                            thingPlaceSpot(object1, carSeat);
 
-            }
-            else {
-                //logically thing will not ride on its own 
-            }
+                        }
+                        else {
+                            //logically thing will not ride on its own 
+                        }
 
 
 
-        }
-        else if (object1.getCategory().compare("Human") == 0 && object2.getCategory().compare("Human") == 0) {
+                    }
+                    else if (object1.getCategory().compare("Human") == 0 && object2.getCategory().compare("Human") == 0) {
             
-                humanPlaceSpot(object2, carSeat);
-                humanPlaceSpot(object1, carSeat);
+                            humanPlaceSpot(object2, carSeat);
+                            humanPlaceSpot(object1, carSeat);
 
           
 
 
-        }
-        else {
-            //nothing
-        }
+                    }
+                    else {
+                        //nothing
+                    }
+       
 
-    }
+            }
 
-    default:
-    {
+            default:
+            {
         
-        break;
-    }
+                break;
+            }
 
 
+            }*/
     }
-   
+    else {
+        //nothing to do 
+    }
 
 }
+
 void TimeStampCapture::sendCommand(int command) {
     if (hasSameSet()) {
 
@@ -150,52 +235,170 @@ void TimeStampCapture::sendCommand(int command) {
 }
 
 void TimeStampCapture::clearTimeStamp(void) {
-    this->ObjCaptureVector.clear();
+ //   this->ObjCaptureVector.clear();
 }
 
-void TimeStampCapture::humanPlaceSpot(ObjectCapture object , CarSeats* carSeat) {
+void TimeStampCapture::humanPlaceSpot(ObjectCapture* object, ObjectsData* vecObj, CarSeats* carSeat) {
 
     Position objectPos = positionMapping(object);
+    DIRECTION objectDir = object->getDirection();
 
     switch (objectPos)
     {
     case ENTRANCE:
     case LUGGAGE_AREA:
+
     {
 
+        switch (objectDir)
+        {
+        case GET_IN: {
 
-        if (carSeat->IsCarEmpty() || !carSeat->IsFrontLeftBooked()) {
-            std::cout << "turn on front left " << std::endl;
-            carSeat->bookFrontLeft();
 
-        }
-        else if (carSeat->IsFrontLeftBooked() && !carSeat->IsBackRightBooked()) {
-            std::cout << "turn on back right " << std::endl;
-            carSeat->bookBackRight();
-        }
-        else if (carSeat->IsBackRightBooked() && !carSeat->IsBackMiddleBooked()) {
-            std::cout << "turn on back middle " << std::endl;
-            carSeat->bookBackMiddle();
-        }
-        else if (carSeat->IsBackMiddleBooked() && !carSeat->IsBackLeftBooked()) {
-            std::cout << "turn on back left " << std::endl;
-            carSeat->bookBackLeft();
-        }
-        else {
+            if (!vecObj->hasSeat) {
 
+                if (carSeat->isCarEmpty() || !carSeat->isFrontLeftBooked()) {
+                    std::cout << "******************************************turn on front left " << std::endl;
+                    carSeat->bookFrontLeft(object, vecObj);
+
+
+                }
+                else if (carSeat->isFrontLeftBooked() && !carSeat->isBackRightBooked()) {
+                    std::cout << "******************************************turn on back right " << std::endl;
+                    carSeat->bookBackRight(object, vecObj);
+
+
+                }
+                else if (carSeat->isBackRightBooked() && !carSeat->isBackMiddleBooked()) {
+                    std::cout << "****************************turn on back middle " << std::endl;
+                    carSeat->bookBackMiddle(object, vecObj);
+
+                }
+                else if (carSeat->isBackMiddleBooked() && !carSeat->isBackLeftBooked()) {
+                    std::cout << "****************************turn on back left " << std::endl;
+                    carSeat->bookBackLeft(object, vecObj);
+
+                }
+                else {
+
+                }
+            }
+
+            break;
+        }
+        case GET_OUT: {
+
+            if (vecObj->hasSeat) {
+                std::cout << vecObj->seat_num << std::endl;
+                if (carSeat->isFrontLeftBooked() && vecObj->seat_num == FRONT_LEFT) {
+
+                    std::cout << "******************************************turn off front left " << std::endl;
+                    carSeat->freeFrontLeft(object, vecObj);
+
+
+                }
+                else if (carSeat->isBackRightBooked() && vecObj->seat_num == BACK_RIGHT) {
+                    std::cout << "******************************************turn off back right " << std::endl;
+                    carSeat->freeBackRight(object, vecObj);
+
+
+                }
+                else if (carSeat->isBackLeftBooked() && vecObj->seat_num == BACK_LEFT) {
+                    std::cout << "****************************turn off back left " << std::endl;
+                    carSeat->freeBackLeft(object, vecObj);
+
+                }
+                else if (carSeat->isBackMiddleBooked() && vecObj->seat_num == BACK_MIDDLE) {
+                    std::cout << "****************************turn off back middle " << std::endl;
+                    carSeat->freeBackMiddle(object, vecObj);
+
+                }
+                else {
+
+                }
+            }
+
+
+
+
+            break;
+        }
+        default: {
+            break;
+        }
         }
         break;
     }
+    case FRONT_LEFT:
+    case BACK_RIGHT:
+    case BACK_MIDDLE:
+    case BACK_LEFT:
+
+    {
+
+        switch (objectDir)
+        {
+
+        case GET_OUT: {
+
+            if (vecObj->hasSeat) {
+                std::cout << vecObj->seat_num << std::endl;
+                if (carSeat->isFrontLeftBooked() && vecObj->seat_num == FRONT_LEFT) {
+
+                    std::cout << "******************************************turn off front left " << std::endl;
+                    carSeat->freeFrontLeft(object, vecObj);
+
+
+                }
+                else if (carSeat->isBackRightBooked() && vecObj->seat_num == BACK_RIGHT) {
+                    std::cout << "******************************************turn off back right " << std::endl;
+                    carSeat->freeBackRight(object, vecObj);
+
+
+                }
+                else if (carSeat->isBackLeftBooked() && vecObj->seat_num == BACK_LEFT) {
+                    std::cout << "****************************turn off back left " << std::endl;
+                    carSeat->freeBackLeft(object, vecObj);
+
+                }
+                else if (carSeat->isBackMiddleBooked() && vecObj->seat_num == BACK_MIDDLE) {
+                    std::cout << "****************************turn off back middle " << std::endl;
+                    carSeat->freeBackMiddle(object, vecObj);
+
+                }
+                else {
+
+                }
+            }
+
+
+
+
+            break;
+
+        }
+        default:
+        {
+            break;
+        }
+        }
+
+        break;
+    }
+
+
+
     default:
     {
-        std::cout << "turn off all lights" << std::endl;
+        //  std::cout << "turn off all lights" << std::endl;
         break;
     }
+
+
+
     }
-
-
 }
-void TimeStampCapture::thingPlaceSpot(ObjectCapture object, CarSeats* carSeat) {
+void TimeStampCapture::thingPlaceSpot(ObjectCapture* object, CarSeats* carSeat) {
 
     Position objectPos = positionMapping(object);
 

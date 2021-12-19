@@ -11,6 +11,7 @@
 #include <cstdio>
 static int NoOfTimestamps = 0; 
 static CarSeats carSeat;
+static vector<ObjectsData> allObjDB;
 int main()
 {
     using namespace rapidjson;
@@ -117,16 +118,22 @@ int main()
                        
                      
                    }
-                   TSCapture.addObjects(ObjCapture);
+                   TSCapture.addObjects(ObjCapture , &allObjDB);
                    /* Here pass the vector and check the data */
                    
 
                   
               
                }
-              
-               TSCapture.objectTracking(&carSeat);
-			   TSCapture.clearTimeStamp();
+            /*   for (auto& elem : TSCapture.allObjDB) {
+                   std::cout << elem.id << std::endl;
+                   for (auto& i : elem.ObjCaptureVector_ID ) {
+                       std::cout << i.getCategory() << std::endl;
+                   }
+                   
+               }*/
+               TSCapture.objectTracking(&carSeat, &allObjDB);
+			 //  TSCapture.clearTimeStamp();
 
             }
 
