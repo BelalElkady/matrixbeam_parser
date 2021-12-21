@@ -12,6 +12,7 @@
 static int NoOfTimestamps = 0; 
 static CarSeats carSeat;
 static vector<ObjectsData> allObjDB;
+static int timeStamp_instant = 0;
 int main()
 {
     using namespace rapidjson;
@@ -51,12 +52,12 @@ int main()
         const Value& obj = *itr;
         /*loop over each and every object which has time and array of object */
         for (Value::ConstMemberIterator it = obj.MemberBegin(); it != obj.MemberEnd(); ++it) {
-
-         
+            string name1 = it->name.GetString();
+           
        
            if (it->value.IsArray()&&!it->value.Empty()) {
                const Value& obj1 = it->value;
-              
+               
                /*at every timestamp loop over "Objects" array */
                for (Value::ConstValueIterator itre = obj1.Begin(); itre != obj1.End(); ++itre) {
                    TSCapture.setNoOfObj(obj1.Size());
@@ -113,12 +114,12 @@ int main()
 
                        }
                        else {
-
+                           
                        }
                        
                      
                    }
-                   TSCapture.addObjects(ObjCapture , &allObjDB);
+                   TSCapture.addObjects(ObjCapture , &allObjDB , timeStamp_instant);
                    /* Here pass the vector and check the data */
                    
                
@@ -129,15 +130,19 @@ int main()
               
 		
 
-            }
+           }
+           else if (name1.compare("time") == 0) {
+               timeStamp_instant++;
+               }
            
-
+           
         }
        
     }
    
     
-    TSCapture.objectTracking(&carSeat, &allObjDB);
+
+    TSCapture.objectTracking(&carSeat, &allObjDB , timeStamp_instant);
    
     fclose(fp);
 }

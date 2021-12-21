@@ -31,7 +31,7 @@ int TimeStampCapture::getNoOfObj(void) {
 }
 
 
-void TimeStampCapture::addObjects(ObjectCapture oc , vector<ObjectsData>* allObjDB) {
+void TimeStampCapture::addObjects(ObjectCapture oc, vector<ObjectsData>* allObjDB, int timestamp) {
     bool firstTimeFlag = true;
        ObjectsData db;
 
@@ -40,18 +40,24 @@ void TimeStampCapture::addObjects(ObjectCapture oc , vector<ObjectsData>* allObj
     for (auto it = allObjDB->begin(); it !=allObjDB->end() ; ++it) {
       
         if (it->id == oc.getId()) {
+           Pos_class pos_instant;
            it->ObjCapture_ID =oc;
-           it->ObjCapture_ID_Pos.push_back(oc.getPosition());
+           pos_instant.time_stamp = timestamp;
+           for(int i = 0 ; i < 3 ; i ++)  pos_instant.pos[i] = oc.getPosition()[i];
+           it->ObjCapture_ID_Pos.push_back(pos_instant);
+
             firstTimeFlag = false; 
         }
     }
     if (firstTimeFlag) {
+        Pos_class pos_instant;
        db.id = oc.getId();
        db.hasSeat = false;
        db.ObjCapture_ID=oc;
        db.x=-116;
-   
-       db.ObjCapture_ID_Pos.push_back(oc.getPosition());
+       pos_instant.time_stamp = timestamp;
+       for (int i = 0; i < 3; i++)  pos_instant.pos[i] = oc.getPosition()[i];
+       db.ObjCapture_ID_Pos.push_back(pos_instant);
        allObjDB->push_back(db);
 
     }
@@ -87,80 +93,87 @@ Position TimeStampCapture::positionMapping(signed int x , signed int z) {
 
 }
 
-void TimeStampCapture::objectTracking(CarSeats* carSeat , vector<ObjectsData>* allObjDB) {
+void TimeStampCapture::objectTracking(CarSeats* carSeat , vector<ObjectsData>* allObjDB , int timestamp) {
  
     if (!carSeat->isCarFull()) {
-        
-        for (auto elem = allObjDB->begin(); elem != allObjDB->end(); ++elem) {
+        for (int i = 0; i < timestamp; i++) {
+       
+            for (auto elem = allObjDB->begin(); elem != allObjDB->end(); ++elem) {
            
-            
-            for (auto& obj : elem->ObjCapture_ID_Pos) {
-
-                Position objectPos = positionMapping(obj.pos[0],
-                    obj.pos[2]);
-
+           
                
-                if (obj.pos[0] > elem->x) {
-                 
-                    elem->x = obj.pos[0];
-                   
-                    elem->ObjCapture_ID.setDirection(GET_IN);
-
-                 
-                    if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
-
-                    
-                        
-                        humanPlaceSpot(&elem->ObjCapture_ID,objectPos,GET_IN,&(*elem), carSeat);
-
-                       
-                    }
-                    else { //thing
-
-                        thingPlaceSpot(&elem->ObjCapture_ID, objectPos, GET_IN, &(*elem), carSeat);
-
-                    }
-                }
-                else if (obj.pos[0] < elem->x) {
-                    
-                    elem->x = obj.pos[0];
-                    elem->ObjCapture_ID.setDirection(GET_OUT);
-
-                  
-
-                    if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
-                      
-
-                        humanPlaceSpot(&elem->ObjCapture_ID, objectPos, GET_OUT, &(*elem), carSeat);
-
-                    }
-                    else { //thing
-
-                        thingPlaceSpot(&elem->ObjCapture_ID, objectPos, GET_OUT, &(*elem), carSeat);
-
-                    }
-                }
-                else {
-                    
-                        elem->x = obj.pos[0];
-                        elem->ObjCapture_ID.setDirection(SEATED);
-
-                        
-
-                        if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
-
-
-                            humanPlaceSpot(&elem->ObjCapture_ID, objectPos, SEATED, &(*elem), carSeat);
-
-                        }
-                        else { //thing
-                            thingPlaceSpot(&elem->ObjCapture_ID, objectPos, SEATED, &(*elem), carSeat);
-
-                        }
-                    }
-              
+           
+               for (auto& obj : elem->ObjCapture_ID_Pos) {
                
                 
+                  if (obj.time_stamp == i){
+                               Position objectPos = positionMapping(obj.pos[0],
+                                    obj.pos[2]);
+
+
+                              if (obj.pos[0] > elem->x) {
+
+                                elem->x = obj.pos[0];
+
+                                elem->ObjCapture_ID.setDirection(GET_IN);
+
+
+                                if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
+
+
+
+                                    humanPlaceSpot(&elem->ObjCapture_ID, objectPos, GET_IN, &(*elem), carSeat);
+
+
+
+                                }
+                                else { //thing
+
+                                    thingPlaceSpot(&elem->ObjCapture_ID, objectPos, GET_IN, &(*elem), carSeat);
+
+                                }
+                            }
+                            else if (obj.pos[0] < elem->x) {
+
+                                elem->x = obj.pos[0];
+                                elem->ObjCapture_ID.setDirection(GET_OUT);
+
+
+
+                                if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
+
+
+                                    humanPlaceSpot(&elem->ObjCapture_ID, objectPos, GET_OUT, &(*elem), carSeat);
+
+                                }
+                                else { //thing
+
+                                    thingPlaceSpot(&elem->ObjCapture_ID, objectPos, GET_OUT, &(*elem), carSeat);
+
+                                }
+                            }
+                            else {
+
+                                elem->x = obj.pos[0];
+                                elem->ObjCapture_ID.setDirection(SEATED);
+
+
+
+                                if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
+
+
+                                    humanPlaceSpot(&elem->ObjCapture_ID, objectPos, SEATED, &(*elem), carSeat);
+
+                                }
+                                else { //thing
+                                    thingPlaceSpot(&elem->ObjCapture_ID, objectPos, SEATED, &(*elem), carSeat);
+
+                                }
+                            }
+
+                        }
+
+                       }
             }
 
         }

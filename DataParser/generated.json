@@ -79,7 +79,7 @@
 	"_comment":"The first and second object are recognised and object 1 and 2 are getting close to car",
     "objects": [
       {
-        "id": 0,
+        "id": 2,
         "set": 1,
         "position": [
           -90,
@@ -93,7 +93,7 @@
         "motion": 0.8
       },
       {
-        "id": 1,
+        "id": 3,
         "set": 1,
         "position": [
           -95,
@@ -725,7 +725,7 @@
 	"_comment":"The the person is moving away from car, left the bag and  the bag is on floor",
     "objects": [
       {
-        "id": 0,
+        "id": 2,
         "set": 1,
         "position": [
           -130,
@@ -739,7 +739,7 @@
         "motion": 0.8
       },
 	  {
-        "id": 1,
+        "id": 3,
         "set": 1,
         "position": [
           -65,

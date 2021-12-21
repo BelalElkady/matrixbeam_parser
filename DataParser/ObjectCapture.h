@@ -9,6 +9,7 @@ typedef enum dir { GET_IN, GET_OUT, SEATED } Direction;
 typedef enum positions { FRONT_LEFT, BACK_RIGHT, BACK_MIDDLE, BACK_LEFT, LUGGAGE_AREA, ENTRANCE, OUT } Position;
 typedef struct pos {
 	signed int pos[3];
+	int time_stamp;
 }Pos_class;
 
 class ObjectCapture
@@ -18,7 +19,7 @@ class ObjectCapture
 
 	int id;
 	int set; 
-	Pos_class position;
+	signed int position[3];
 	float motion;
 	string category;
 	string subcategroy;
@@ -55,7 +56,7 @@ public:
 	float getMotion(void);
 	string getCategory(void);
 	string getPlace(void);
-	Pos_class getPosition(void);
+	signed int*  getPosition(void);
 	Direction getDirection(void);
 
 	

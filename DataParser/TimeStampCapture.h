@@ -20,8 +20,8 @@ public:
 	void setNoOfObj(int);
 	int  getNoOfObj(void);
 	bool hasSameSet(void);
-	void addObjects(ObjectCapture , vector<ObjectsData>*);
-	void objectTracking(CarSeats*, vector<ObjectsData>*);
+	void addObjects(ObjectCapture , vector<ObjectsData>* , int);
+	void objectTracking(CarSeats*, vector<ObjectsData>* ,int);
 	Position positionMapping(signed int x , signed int z);
 	void sendCommand(int command);
 	void clearTimeStamp(void); 

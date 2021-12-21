@@ -8,13 +8,13 @@ ObjectCapture::ObjectCapture() {
 ObjectCapture::ObjectCapture(const ObjectCapture& obj) {
 	this->id = obj.id;
 	this->set = obj.set;
-	this-> position = obj.position;
 	this->motion = obj.motion;
 	this->category = obj.category;
 	this->subcategroy = obj.subcategroy;
 	this->name = obj.name;
 	this->place = obj.place;
 	this->objDir = obj.objDir;
+	for (int i = 0 ; i < 3 ; i ++) this->position[i] = obj.position[i];
 	
 	
 	
@@ -56,7 +56,7 @@ ObjectCapture::ObjectCapture(const ObjectCapture& obj) {
 
 
 	void ObjectCapture::updatePosition(signed int* position) {
-		for (int i = 0; i < 3; i++) this->position.pos[i] = position[i];
+		for (int i = 0; i < 3; i++) this->position[i] = position[i];
 	}
 
 
@@ -81,7 +81,7 @@ ObjectCapture::ObjectCapture(const ObjectCapture& obj) {
 
 		return this->place;
 	}
-	Pos_class ObjectCapture::getPosition(void) {
+	signed int*  ObjectCapture::getPosition(void) {
 
 		return this->position;
 	}
