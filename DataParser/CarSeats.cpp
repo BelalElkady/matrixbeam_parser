@@ -38,8 +38,12 @@ void CarSeats::bookBackRight(ObjectCapture* obj, ObjectsData* allObjDB) {
 	}
 
 }
-void CarSeats::bookLuggageArea(ObjectCapture* obj) {
-	this->CarSeatStatus[4] = true;
+void CarSeats::bookLuggageArea(ObjectCapture* obj  , ObjectsData* allObjDB) {
+	if (obj->getId() == allObjDB->id) {
+		allObjDB->hasSeat = true;
+		allObjDB->seat_num = LUGGAGE_AREA;
+		this->CarSeatStatus[4] = true;
+	}
 	
 }
 
@@ -75,8 +79,12 @@ void CarSeats::freeBackRight(ObjectCapture* obj, ObjectsData* allObjDB) {
 	}
 	
 }
-void CarSeats::freeLuggageArea(ObjectCapture* obj) {
-	this->CarSeatStatus[4] = false;
+void CarSeats::freeLuggageArea(ObjectCapture* obj  , ObjectsData* allObjDB) {
+	if (obj->getId() == allObjDB->id) {
+		allObjDB->hasSeat = true;
+		allObjDB->seat_num = LUGGAGE_AREA;
+		this->CarSeatStatus[4] = false;
+	}
 	
 }
 

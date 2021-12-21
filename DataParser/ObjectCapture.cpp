@@ -44,7 +44,7 @@ ObjectCapture::ObjectCapture(const ObjectCapture& obj) {
 	void ObjectCapture::setPlace(string place) {
 		this->place = place; 
 	}
-	void ObjectCapture::setDirection(DIRECTION dir) {
+	void ObjectCapture::setDirection(Direction dir) {
 		this->objDir = dir;
 	}
 	/*void ObjectCapture::setSeatNum(Position seat) {
@@ -85,7 +85,7 @@ ObjectCapture::ObjectCapture(const ObjectCapture& obj) {
 
 		return this->position;
 	}
-	DIRECTION ObjectCapture::getDirection(void) {
+	Direction ObjectCapture::getDirection(void) {
 		return this->objDir;
 	}
 

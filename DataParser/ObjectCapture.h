@@ -5,7 +5,7 @@
 #include <vector>
 using namespace std;
 
-typedef enum dir { GET_IN, GET_OUT, SEATED } DIRECTION;
+typedef enum dir { GET_IN, GET_OUT, SEATED } Direction;
 typedef enum positions { FRONT_LEFT, BACK_RIGHT, BACK_MIDDLE, BACK_LEFT, LUGGAGE_AREA, ENTRANCE, OUT } Position;
 typedef struct pos {
 	signed int pos[3];
@@ -24,7 +24,7 @@ class ObjectCapture
 	string subcategroy;
 	string name;
 	string place;
-	DIRECTION objDir; 
+	Direction objDir; 
 	
 
 	
@@ -44,7 +44,7 @@ public:
 	void setName(string name);
 	void setPlace(string place);
 	void updatePosition(signed int * position);
-	void setDirection(DIRECTION);
+	void setDirection(Direction);
 	
 
 
@@ -56,7 +56,7 @@ public:
 	string getCategory(void);
 	string getPlace(void);
 	Pos_class getPosition(void);
-	DIRECTION getDirection(void);
+	Direction getDirection(void);
 
 	
 

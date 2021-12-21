@@ -22,11 +22,11 @@ public:
 	bool hasSameSet(void);
 	void addObjects(ObjectCapture , vector<ObjectsData>*);
 	void objectTracking(CarSeats*, vector<ObjectsData>*);
-	Position positionMapping(ObjectCapture*);
+	Position positionMapping(signed int x , signed int z);
 	void sendCommand(int command);
 	void clearTimeStamp(void); 
-	void humanPlaceSpot(ObjectCapture*, ObjectsData* ,CarSeats*);
-	void thingPlaceSpot(ObjectCapture*, CarSeats*);
+	void humanPlaceSpot(ObjectCapture*,Position , Direction, ObjectsData* ,CarSeats*);
+	void thingPlaceSpot(ObjectCapture*, Position, Direction, ObjectsData*, CarSeats*);
 	
 
 

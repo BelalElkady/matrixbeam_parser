@@ -6,9 +6,9 @@ bool TimeStampCapture::hasSameSet(void) {
     if (this->getNoOfObj() > 1) {
 
 
-      //  if (ObjCaptureVector[0].getSet() == ObjCaptureVector[1].getSet()) return true;
+       // if (ObjCaptureVector[0].getSet() == ObjCaptureVector[1].getSet()) return true;
 
-    //    else return false;
+       //0 else return false;
 
         return true;
     }
@@ -38,6 +38,7 @@ void TimeStampCapture::addObjects(ObjectCapture oc , vector<ObjectsData>* allObj
       
 	
     for (auto it = allObjDB->begin(); it !=allObjDB->end() ; ++it) {
+      
         if (it->id == oc.getId()) {
            it->ObjCapture_ID =oc;
            it->ObjCapture_ID_Pos.push_back(oc.getPosition());
@@ -59,27 +60,25 @@ void TimeStampCapture::addObjects(ObjectCapture oc , vector<ObjectsData>* allObj
 }
 
 
-Position TimeStampCapture::positionMapping(ObjectCapture* ObCapture) {
+Position TimeStampCapture::positionMapping(signed int x , signed int z) {
 
-    Pos_class  posArr = ObCapture->getPosition();
-    signed int* pos = posArr.pos;
-
-    if (pos[0] < -85 && pos[0] >= -115) {
+  
+    if (x < -85 && z >= -115) {
         return ENTRANCE;
     }
-    else if (pos[0] >= -85 && pos[0] <= 35 && pos[2] >= 20 && pos[2] <= 150) {
+    else if (x >= -85 && x <= 35 && z >= 20 && z <= 150) {
         return LUGGAGE_AREA;
     }
-    else if (pos[0] > 35 && pos[0] <= 85 && pos[2] >= 40 && pos[2] <= 120) {
+    else if (x > 35 && x <= 85 && z >= 40 && z <= 120) {
         return FRONT_LEFT;
     }
-    else if (pos[0] > -85 && pos[0] <= 35 && pos[2] >= 170 && pos[2] <= 220) {
+    else if (x > -85 && x <= 35 && z >= 170 && z <= 220) {
         return BACK_RIGHT;
     }
-    else if (pos[0] >= -35 && pos[0] <= 35 && pos[2] >= 170 && pos[2] <= 220) {
+    else if (x >= -35 && x <= 35 && z >= 170 && z <= 220) {
         return BACK_MIDDLE;
     }
-    else if (pos[0] > 35 && pos[0] <= 85 && pos[2] >= 170 && pos[2] <= 220) {
+    else if (x > 35 && x <= 85 && z >= 170 && z <= 220) {
         return BACK_LEFT;
     }
     else {
@@ -89,28 +88,36 @@ Position TimeStampCapture::positionMapping(ObjectCapture* ObCapture) {
 }
 
 void TimeStampCapture::objectTracking(CarSeats* carSeat , vector<ObjectsData>* allObjDB) {
-
+ 
     if (!carSeat->isCarFull()) {
         
         for (auto elem = allObjDB->begin(); elem != allObjDB->end(); ++elem) {
            
-           
+            
             for (auto& obj : elem->ObjCapture_ID_Pos) {
-                
+
+                Position objectPos = positionMapping(obj.pos[0],
+                    obj.pos[2]);
+
+               
                 if (obj.pos[0] > elem->x) {
-                   
+                 
                     elem->x = obj.pos[0];
+                   
                     elem->ObjCapture_ID.setDirection(GET_IN);
+
                  
                     if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
 
-                 
-
-                        humanPlaceSpot(&elem->ObjCapture_ID,&(*elem), carSeat);
+                    
+                        
+                        humanPlaceSpot(&elem->ObjCapture_ID,objectPos,GET_IN,&(*elem), carSeat);
 
                        
                     }
                     else { //thing
+
+                        thingPlaceSpot(&elem->ObjCapture_ID, objectPos, GET_IN, &(*elem), carSeat);
 
                     }
                 }
@@ -119,11 +126,17 @@ void TimeStampCapture::objectTracking(CarSeats* carSeat , vector<ObjectsData>* a
                     elem->x = obj.pos[0];
                     elem->ObjCapture_ID.setDirection(GET_OUT);
 
+                  
+
                     if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
                       
-                        humanPlaceSpot(&elem->ObjCapture_ID, &(*elem), carSeat);
+
+                        humanPlaceSpot(&elem->ObjCapture_ID, objectPos, GET_OUT, &(*elem), carSeat);
+
                     }
                     else { //thing
+
+                        thingPlaceSpot(&elem->ObjCapture_ID, objectPos, GET_OUT, &(*elem), carSeat);
 
                     }
                 }
@@ -132,11 +145,16 @@ void TimeStampCapture::objectTracking(CarSeats* carSeat , vector<ObjectsData>* a
                         elem->x = obj.pos[0];
                         elem->ObjCapture_ID.setDirection(SEATED);
 
+                        
+
                         if (elem->ObjCapture_ID.getCategory().compare("Human") == 0) {
 
-                            humanPlaceSpot(&elem->ObjCapture_ID, &(*elem), carSeat);
+
+                            humanPlaceSpot(&elem->ObjCapture_ID, objectPos, SEATED, &(*elem), carSeat);
+
                         }
                         else { //thing
+                            thingPlaceSpot(&elem->ObjCapture_ID, objectPos, SEATED, &(*elem), carSeat);
 
                         }
                     }
@@ -238,23 +256,22 @@ void TimeStampCapture::clearTimeStamp(void) {
  //   this->ObjCaptureVector.clear();
 }
 
-void TimeStampCapture::humanPlaceSpot(ObjectCapture* object, ObjectsData* vecObj, CarSeats* carSeat) {
+void TimeStampCapture::humanPlaceSpot(ObjectCapture* object , Position objectPos, Direction objectDir, ObjectsData* vecObj, CarSeats* carSeat) {
 
-    Position objectPos = positionMapping(object);
-    DIRECTION objectDir = object->getDirection();
-
+   
+   
     switch (objectPos)
     {
     case ENTRANCE:
     case LUGGAGE_AREA:
 
     {
-
+      
         switch (objectDir)
         {
         case GET_IN: {
 
-
+          
             if (!vecObj->hasSeat) {
 
                 if (carSeat->isCarEmpty() || !carSeat->isFrontLeftBooked()) {
@@ -289,7 +306,7 @@ void TimeStampCapture::humanPlaceSpot(ObjectCapture* object, ObjectsData* vecObj
         case GET_OUT: {
 
             if (vecObj->hasSeat) {
-                std::cout << vecObj->seat_num << std::endl;
+              
                 if (carSeat->isFrontLeftBooked() && vecObj->seat_num == FRONT_LEFT) {
 
                     std::cout << "******************************************turn off front left " << std::endl;
@@ -398,10 +415,9 @@ void TimeStampCapture::humanPlaceSpot(ObjectCapture* object, ObjectsData* vecObj
 
     }
 }
-void TimeStampCapture::thingPlaceSpot(ObjectCapture* object, CarSeats* carSeat) {
+void TimeStampCapture::thingPlaceSpot(ObjectCapture* object,Position objectPos,Direction objectDir, ObjectsData* vecObj, CarSeats* carSeat) {
 
-    Position objectPos = positionMapping(object);
-
+    
     switch (objectPos)
     {
     case ENTRANCE:
@@ -411,8 +427,30 @@ void TimeStampCapture::thingPlaceSpot(ObjectCapture* object, CarSeats* carSeat) 
     case BACK_MIDDLE:
     case BACK_RIGHT:
     {
+        switch (objectDir)
+        {
+            case GET_IN: {
 
-        std::cout << "turn on luggage area" << std::endl;
+
+                if (!vecObj->hasSeat) {
+                    std::cout << "turn on luggage area" << std::endl;
+                    carSeat->bookLuggageArea(object, vecObj);
+                }
+                break;
+            }
+            case GET_OUT: {
+
+                if (vecObj->hasSeat) {
+                    std::cout << "turn off luggage area" << std::endl;
+                    carSeat->freeLuggageArea(object, vecObj);
+                }
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
         
         break;
     }

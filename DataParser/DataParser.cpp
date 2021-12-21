@@ -121,25 +121,24 @@ int main()
                    TSCapture.addObjects(ObjCapture , &allObjDB);
                    /* Here pass the vector and check the data */
                    
-
+               
                   
               
                }
-            /*   for (auto& elem : TSCapture.allObjDB) {
-                   std::cout << elem.id << std::endl;
-                   for (auto& i : elem.ObjCaptureVector_ID ) {
-                       std::cout << i.getCategory() << std::endl;
-                   }
-                   
-               }*/
-               TSCapture.objectTracking(&carSeat, &allObjDB);
-			 //  TSCapture.clearTimeStamp();
+        
+              
+		
 
             }
+           
 
         }
+       
     }
-  
+   
+    
+    TSCapture.objectTracking(&carSeat, &allObjDB);
+   
     fclose(fp);
 }
 

@@ -19,13 +19,13 @@ public:
 	void bookBackLeft(ObjectCapture *, ObjectsData*);
 	void bookBackMiddle(ObjectCapture*, ObjectsData*);
 	void bookBackRight(ObjectCapture* , ObjectsData*);
-	void bookLuggageArea(ObjectCapture*);
+	void bookLuggageArea(ObjectCapture*, ObjectsData*);
 
 	void freeFrontLeft(ObjectCapture*, ObjectsData* );
 	void freeBackLeft(ObjectCapture*, ObjectsData* );
 	void freeBackMiddle(ObjectCapture*, ObjectsData* );
 	void freeBackRight(ObjectCapture*, ObjectsData* );
-	void freeLuggageArea(ObjectCapture* );
+	void freeLuggageArea(ObjectCapture*, ObjectsData*);
 
 	bool isFrontLeftBooked(void);
 	bool isBackLeftBooked(void);
