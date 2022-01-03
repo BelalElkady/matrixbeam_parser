@@ -19,12 +19,14 @@ public:
 	
 	void setNoOfObj(int);
 	int  getNoOfObj(void);
-	bool hasSameSet(void);
+	bool hasSameSet(ObjectCapture*,vector<ObjectsData>*,int);
+	bool is_person_leaving(ObjectCapture*, vector<ObjectsData>*, int);
 	void addObjects(ObjectCapture , vector<ObjectsData>* , int);
 	void objectTracking(CarSeats*, vector<ObjectsData>* ,int);
 	Position positionMapping(signed int x , signed int z);
 	void sendCommand(int command);
 	void clearTimeStamp(void); 
+	void reassign_seat(ObjectCapture*,Position,ObjectsData*, CarSeats*);
 	void humanPlaceSpot(ObjectCapture*,Position , Direction, ObjectsData* ,CarSeats*);
 	void thingPlaceSpot(ObjectCapture*, Position, Direction, ObjectsData*, CarSeats*);
 	

@@ -6,7 +6,7 @@
 using namespace std;
 
 typedef enum dir { GET_IN, GET_OUT, SEATED } Direction;
-typedef enum positions { FRONT_LEFT, BACK_RIGHT, BACK_MIDDLE, BACK_LEFT, LUGGAGE_AREA, ENTRANCE, OUT } Position;
+typedef enum positions { FRONT_LEFT, BACK_RIGHT, BACK_MIDDLE, BACK_LEFT, LUGGAGE_AREA_1, LUGGAGE_AREA_2, LUGGAGE_AREA_3, LUGGAGE_AREA_4, ENTRANCE, OUT } Position;
 typedef struct pos {
 	signed int pos[3];
 	int time_stamp;
