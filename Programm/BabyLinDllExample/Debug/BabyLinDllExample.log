@@ -1,5 +1,9 @@
 ﻿  main.cpp
+C:\Users\AWDSHOI\Desktop\matrixbeam_parser\Programm\BabyLinDllExample\main.cpp(117,6): warning C4101: 'userData': unreferenced local variable
+C:\Users\AWDSHOI\Desktop\matrixbeam_parser\Programm\BabyLinDllExample\main.cpp(114,6): warning C4101: 'idx': unreferenced local variable
+C:\Users\AWDSHOI\Desktop\matrixbeam_parser\Programm\BabyLinDllExample\main.cpp(115,12): warning C4101: 'channelHandles': unreferenced local variable
+C:\Users\AWDSHOI\Desktop\matrixbeam_parser\Programm\BabyLinDllExample\main.cpp(113,6): warning C4101: 'channelCount': unreferenced local variable
 main.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
-  BabyLinDllExample.vcxproj -> C:\Users\AWDSHOI\Documents\GitHub\matrixbeam_parser\Programm\BabyLinDllExample\Debug\BabyLinDllExample.exe
+  BabyLinDllExample.vcxproj -> C:\Users\AWDSHOI\Desktop\matrixbeam_parser\Programm\BabyLinDllExample\Debug\BabyLinDllExample.exe
           1 Datei(en) kopiert.
           1 Datei(en) kopiert.
